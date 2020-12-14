@@ -1,0 +1,1 @@
+delete from dragomar.sdicr_compiled where objname = 'pl_pedidos_proveedores'

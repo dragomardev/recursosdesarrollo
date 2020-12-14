@@ -1,0 +1,25 @@
+ELIMINAR ARTICULO
+
+select * from dragomar.pl_articulos where xdescripcion = 'test'
+
+begin transaction
+
+delete dragomar.pl_existlot where xarticulo_id = '01'
+delete dragomar.pl_almlote where xarticulo_id = '01'
+delete dragomar.pl_lotes where xarticulo_id = '01'
+
+rollback
+
+begin transaction
+delete dragomar.pl_existalm where xarticulo_id = '01'
+delete dragomar.pl_artalm where xarticulo_id = '01'
+
+rollback
+
+select * from dragomar.pl_existalm
+select * from dragomar.pl_artalm
+
+
+select * from dragomar.pl_existlot
+select * from dragomar.pl_almlote
+select * from dragomar.pl_lotes

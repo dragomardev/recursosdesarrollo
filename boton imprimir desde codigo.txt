@@ -1,0 +1,43 @@
+ @Override
+	public void viewClick(FMEvent oEvent) throws OTException {
+		// TODO Auto-generated method stub
+		super.viewClick(oEvent);
+		
+		if(oEvent.getSourceName().equals("cmd_impofert"))
+		{
+			String sReport =  "PL_PEDCLI_PIG_PRO";
+			REPrint rePrint = new REPrint(session, sReport);
+			REConfiguration reConfig = new REConfiguration(session, sReport, "DRAGOMAR");
+			if (reConfig.load()) 
+			{
+				reConfig.delete();
+			}	
+
+			int ident_id = session.getConnectionSource().getCounter().getCounterValue("PL_TRABAJO",DACounter.DA_GLOBAL_COUNTER, 1);
+
+			//reConfig.setCondition("xident_id", Integer.toString(ident_id));
+
+			String wempresa_id 	= getItem(ITEMS.txtempresa_id).getValue();
+			String wseccion_id	= getItem(ITEMS.txtseccion_id).getValue();
+			String wnumdoc_id	= getItem(ITEMS.txtnumdoc_id).getValue();
+			String wtipodoc_id	= getItem(ITEMS.txttipodoc_id).getValue();
+
+			String sql = "INSERT INTO dragomar.pl_wdoc_impre (xorden,xempresa_id, xseccion_id, xtipodoc_id, xnumdoc_id,xciclo_id, xident_id) ";
+			sql += "VALUES (1,'"+ wempresa_id +"','"+ wseccion_id +"','"+ wtipodoc_id +"', "+ wnumdoc_id +", 0 , "+ ident_id +" )";
+			int ires = session.getConnectionData().execSQL(sql);
+
+			String wrestrict = " pl_pedcli_cab.xempresa_id= '"+wempresa_id+"' AND pl_pedcli_cab.xseccion_id = '" + wseccion_id ;
+			wrestrict += "' AND pl_pedcli_cab.xtipodoc_id = '" + wtipodoc_id + "' AND pl_pedcli_cab.xnumdoc_id = " + wnumdoc_id;
+			wrestrict += " AND pl_wdoc_impre.xident_id =  " + ident_id;
+
+			reConfig.setCondition("pl_pedcli_imp", wrestrict);
+
+			reConfig.save();
+			rePrint.setOpenMode(REPrint.OPEN_PRINT);
+
+			rePrint.open(reConfig);
+			rePrint = null;	
+		}
+		
+
+    }

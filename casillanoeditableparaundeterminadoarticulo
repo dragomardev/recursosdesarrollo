@@ -1,0 +1,53 @@
+	@Override
+	public void formReadRecord(FMEvent fmEvent) throws OTException {
+		// TODO Auto-generated method stub
+		super.formReadRecord(fmEvent);
+		fmEvent.setRecall(true);
+		
+		String warticulo_id = getItem(ITEMS.txtarticulo_id).getValue();
+		
+		if("99".equals(warticulo_id)) getItem(ITEMS.txtprec_coste_art).setReadOnly(false);
+	}
+
+
+
+
+
+
+	@Override
+	public void containerRowChange(FMEvent oEvent) throws OTException {
+		// TODO Auto-generated method stub
+		super.containerRowChange(oEvent);
+		oEvent.setRecall(true);
+		
+		if(oEvent.getSourceName().equals("grd_detalle"))
+		{
+			
+			String warticulo_id = getItem(ITEMS.txtarticulo_id).getValue();
+			
+			if("99".equals(warticulo_id)) getItem(ITEMS.txtprec_coste_art).setReadOnly(false);
+			
+		}
+		
+	}
+    
+    
+    
+
+	@Override
+	public void formItemValidate(FMEvent oEvent) throws OTException {
+		// TODO Auto-generated method stub
+		super.formItemValidate(oEvent);
+oEvent.setRecall(true);
+		
+		if(oEvent.isSaving()) return;
+		
+		
+		if(oEvent.getSourceName().equals("txtarticulo_id"))
+		{
+			String warticulo_id = getItem(ITEMS.txtarticulo_id).getValue();
+			
+			if("99".equals(warticulo_id)) getItem(ITEMS.txtprec_coste_art).setReadOnly(false);
+			
+			
+		}

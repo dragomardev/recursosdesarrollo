@@ -1,0 +1,15 @@
+use sdic_<empresa>
+go
+sp_change_users_login @Action = 'Report'
+
+-- Para poder asignar los usuarios de la instancia con los usuarios de la copia restaurada de la base de datos podemos realizar los siguientes pasos:
+
+use sdic_<empresa>
+go
+
+sp_change_users_login @Action = 'Update_One', @UserNamePattern ='dragomar', @LoginName = 'dragomar'
+
+go
+sp_change_users_login @Action = 'Update_One', @UserNamePattern ='login_ott', @LoginName = 'login_ott'
+
+go
